@@ -39,6 +39,7 @@ public class ClientController {
 		logger.info("Making GET request to: " + datapowerURL);
 		Mono<String> result = webClient.get().retrieve().bodyToMono(String.class);
 		
+		
 		return result;
 	}
 }

@@ -1,0 +1,33 @@
+<producer enabled="true" priority="10" in-process="false" apply-instrumentation-on-method-end="false" activity-type="WebFlux Retrieve" do-not-resolve="true">
+    <instrumentation>
+        <class-name>org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec</class-name>
+        <method-name>retrieve</method-name>
+        <!--<match-type>IMPLEMENTS_INTERFACE</match-type>-->
+        <match-type>MATCHES_CLASS</match-type>
+    </instrumentation>
+    <identifiers>
+        <identifier name="HOST">
+            <data-gatherer-type>POSITION</data-gatherer-type>
+            <position>0</position>
+            <transformer-type>TO_STRING</transformer-type>
+        </identifier>
+    </identifiers>
+    <correlation>
+        <!--<instrumentation>
+            <class-name></class-name>
+            <method-name></method-name>
+            <match-type>IMPLEMENTS_INTERFACE</match-type>
+            <param-types></param-types>
+        </instrumentation>-->
+        <payload-pointer>
+            <data-gatherer-type>INVOKED</data-gatherer-type>
+            <getter-chain>header</getter-chain>
+            <transformer-type>GETTER_METHODS</transformer-type>
+        </payload-pointer>
+        <payload-operation>
+            <access-type>method</access-type>
+            <param-types>java.lang.String,java.lang.String</param-types>
+            <access-method>header</access-method>
+        </payload-operation>
+    </correlation>
+</producer>

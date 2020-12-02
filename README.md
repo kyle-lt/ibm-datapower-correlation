@@ -54,7 +54,9 @@ $ docker run -it \
 20201201T231432.699Z [0x00350014][mgmt][notice] quota-enforcement-server(QuotaEnforcementServer): tid(831): Operational state up
 ```
 
-Don't give up, the above will likely take 10-20 seconds w/o any status before the login prompt shows up
+Don't give up, the above will likely take 10-20 seconds w/o any status before the login prompt shows up.
+
+Login with credentials admin/admin
 
 ```bash
 login: admin
@@ -66,20 +68,22 @@ Copyright IBM Corporation 1999, 2020
 Version: IDG.10.0.1.0 build 325431 on Sep 9, 2020 9:25:27 PM
 Delivery type: LTS
 Serial number: 0000001
+```
 
+Now at the `idg#` prompt, enter command to enable the Web Management GUI `configure; web-mgmt 0 9090;`
+
+```bash
 idg# configure; web-mgmt 0 9090;
 Global mode
 Web management: successfully started
-```
 
-[Hit Enter]
-
-```bash
 idg(config)# 20201201T231555.954Z [0x8100003f][mgmt][notice] domain(default): tid(303): Domain configuration has been modified.
 20201201T231555.955Z [0x00350014][mgmt][notice] web-mgmt(WebGUI-Settings): tid(303): Operational state up
 ```
 
-Ok, so now the DataPower process is running, and we've enabled the management interface.  Keep the shell open or the container will die.
+Ok, so now the DataPower process is running, and we've enabled the Web Management interface.  
+
+**Keep the shell open or the container will die.**
 
 
 ### DataPower Web Management GUI
@@ -92,9 +96,7 @@ Navigate to the Web Management GUI and login.
 
 ![Web Management GUI Login](/README_IMAGES/DataPower_Login.png)
 
-It uses a self-signed SSL cert, so use Firefox (or some browser that'll let you in over broken SSL).
-
-https://host.docker.internal:9090/
+It uses a self-signed SSL cert, so **use Firefox (or some browser that'll let you in over broken SSL).**
 
 Import the Multi-Protocol Gateway config
 - Click on Import Configuration (near the bottom of the screen)
@@ -113,6 +115,8 @@ We're done with DataPower!
 
 	> __Note:__  If you need to change the destination IP address (default is http://host.docker.internal:8080) - do that NOW!
 				Also, don't touch the port, leave that at 8080 or you'll need to go change it numerous places.  Just leave it pls.
+
+Here is what you might need to change:
 
 - Click into Multi-Protocol Gateway section and choose appd-test gateway
 
@@ -154,13 +158,12 @@ Now go to AppD and check out the App Flow Map - the call correlates through Data
 
 ![DataPower AppD Snapshot Client Call Graph No DataPower](/README_IMAGES/DataPower_Snapshot_Client_Call_Graph_No_DataPower.png)
 
-### Correlate, but also show DataPower on the Flow Map
+### Further Instrumentation
 
-Ok, so, OOB, AppD just ignores this gateway.  In order to visualize the two legs of this transaction, and the DataPower Gateway, we need to coax
-the instrumentation to play nice.
+Ok, so, OOB, the AppD Java agent doesn't visualize or measure performance of this gateway.  The performance impact of the gateway routing is included in the end-to-end transaction performance, but it is not isolated as a metric. 
 
-// TODO - custom-activity-correlation.xml
+It is possible to visualize the network legs of this path (and potentially determine the gateway routing overhead) using [AppD NetViz](https://docs.appdynamics.com/display/PRO45/Network+Visibility)
 
+It is also possible to monitor the DataPower appliance with the [DataPower Extension](https://www.appdynamics.com/community/exchange/extension/datapower-monitoring-extension/) in order to keep tabs on the device itself.
 
-
-  
+It is also *possible* to include the DataPower appliance on the Transaction Flow Map, however, in order to do so requires custom correlation directives and disabling some of the out-of-the-box interceptors, and I just don't recommend doing that much custom work for potentially very little value.  

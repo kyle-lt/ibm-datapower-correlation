@@ -6,6 +6,12 @@ RUN apt-get install -y curl jq unzip
 COPY downloadJavaAgentLatest.sh .
 RUN ./downloadJavaAgentLatest.sh
 
+# Add Custom Correlation File
+#ADD custom-activity-correlation.xml /opt/appdynamics/java/ver20.10.0.31173/conf
+
+# Add custom AppD Java Agent Logging File
+#ADD log4j.xml /opt/appdynamics/java/ver20.10.0.31173/conf/logging
+
 RUN mkdir /app
 WORKDIR /app
 
