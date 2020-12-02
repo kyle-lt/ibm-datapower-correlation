@@ -1,0 +1,24 @@
+More verbose instructions are located on the README.md
+
+docker run -it \
+  -v $PWD/config:/drouter/config \
+  -v $PWD/local:/drouter/local \
+  -e DATAPOWER_ACCEPT_LICENSE=true \
+  -e DATAPOWER_INTERACTIVE=true \
+  -p 9090:9090 \
+  -p 9943:9943 \
+  --name datapower \
+  ibmcom/datapower
+
+<wait 10-20 seconds for login prompt>
+
+admin/admin
+
+configure; web-mgmt 0 9090; <enter>
+
+Use Firefox (or some browser that will let you visit this link):https://host.docker.internal:9090/
+- go to Import Configuration (near the bottom of the screen)
+- choose xml, and navigate to appd-test/export.xml
+- Click next, click import, and we're done here
+
+appd-test config for multi-protocol gateway is saved in the config directory - import it and adjust if necessary. 

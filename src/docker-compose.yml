@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  client:
+    build: ./client
+    image: kjtully/datapower-client:20.10
+    container_name: client
+    labels:
+      desciption: "DataPower Client App"
+    environment:
+      APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY: "$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY"
+      APPDYNAMICS_AGENT_ACCOUNT_NAME: "$APPDYNAMICS_AGENT_ACCOUNT_NAME"
+      APPDYNAMICS_CONTROLLER_HOST_NAME: "$APPDYNAMICS_CONTROLLER_HOST_NAME"
+      APPDYNAMICS_CONTROLLER_PORT: "$APPDYNAMICS_CONTROLLER_PORT"
+      APPDYNAMICS_CONTROLLER_SSL_ENABLED: "$APPDYNAMICS_CONTROLLER_SSL_ENABLED"
+      APPDYNAMICS_AGENT_APPLICATION_NAME: "$APPDYNAMICS_AGENT_APPLICATION_NAME"
+      APPDYNAMICS_AGENT_TIER_NAME: "DataPower-Client"
+      APPDYNAMICS_JAVA_AGENT_REUSE_NODE_NAME: "true"
+      APPDYNAMICS_JAVA_AGENT_REUSE_NODE_NAME_PREFIX: "client"
+      DATAPOWER_HOST: "$DATAPOWER_HOST"
+      DATAPOWER_PORT: "$DATAPOWER_PORT"
+    ports:
+      - "8081:8081"
+  server:
+    build: ./server
+    image: kjtully/datapower-server:20.10
+    container_name: server
+    labels:
+      desciption: "DataPower Server App"
+    environment:
+      APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY: "$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY"
+      APPDYNAMICS_AGENT_ACCOUNT_NAME: "$APPDYNAMICS_AGENT_ACCOUNT_NAME"
+      APPDYNAMICS_CONTROLLER_HOST_NAME: "$APPDYNAMICS_CONTROLLER_HOST_NAME"
+      APPDYNAMICS_CONTROLLER_PORT: "$APPDYNAMICS_CONTROLLER_PORT"
+      APPDYNAMICS_CONTROLLER_SSL_ENABLED: "$APPDYNAMICS_CONTROLLER_SSL_ENABLED"
+      APPDYNAMICS_AGENT_APPLICATION_NAME: "$APPDYNAMICS_AGENT_APPLICATION_NAME"
+      APPDYNAMICS_AGENT_TIER_NAME: "DataPower-Server"
+      APPDYNAMICS_JAVA_AGENT_REUSE_NODE_NAME: "true"
+      APPDYNAMICS_JAVA_AGENT_REUSE_NODE_NAME_PREFIX: "server"
+    ports:
+      - "8080:8080"
+        #datapower:
+        #image: ibmcom/datapower:latest
+        #container_name: datapower
+        #depends_on:
+        #- server
+        #environment:
+        #DATAPOWER_ACCEPT_LICENSE: "true"
+        #DATAPOWER_INTERACTIVE: "true"
+        #ports:
+        #- "9943:9443"
+        #- "9090:9090"
+        #volumes:
+        #- ${PWD}/config:/drouter/config
+        #- $PWD/local:/drouter/local
