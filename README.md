@@ -159,7 +159,7 @@ Now go to AppD and check out the App Flow Map - the call correlates through Data
 Ok, so, OOB, AppD just ignores this gateway.  In order to visualize the two legs of this transaction, and the DataPower Gateway, we need to coax
 the instrumentation to play nice.
 
-// TODO - custom-correlation-activity.xml
+// TODO - custom-activity-correlation.xml
 
 
 
