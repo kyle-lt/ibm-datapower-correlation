@@ -82,9 +82,16 @@ idg(config)# 20201201T231555.954Z [0x8100003f][mgmt][notice] domain(default): ti
 Ok, so now the DataPower process is running, and we've enabled the management interface.  Keep the shell open or the container will die.
 
 
-### DataPower Management GUI
+### DataPower Web Management GUI
 
-Navigate to the management GUI.  It uses a self-signed SSL cert, so use Firefox (or some browser that'll let you in over broken SSL).
+Navigate to the Web Management GUI and login.  
+
+**Default URL is http://host.docker.internal:9090**
+**Default Credentials are admin/admin**
+
+![Web Management GUI Login](/README_IMAGES/DataPower_Login.png)
+
+It uses a self-signed SSL cert, so use Firefox (or some browser that'll let you in over broken SSL).
 
 https://host.docker.internal:9090/
 
