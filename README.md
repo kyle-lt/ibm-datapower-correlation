@@ -87,6 +87,7 @@ Ok, so now the DataPower process is running, and we've enabled the management in
 Navigate to the Web Management GUI and login.  
 
 **Default URL is http://host.docker.internal:9090**
+
 **Default Credentials are admin/admin**
 
 ![Web Management GUI Login](/README_IMAGES/DataPower_Login.png)
@@ -97,13 +98,29 @@ https://host.docker.internal:9090/
 
 Import the Multi-Protocol Gateway config
 - Click on Import Configuration (near the bottom of the screen)
-- Choose xml, and navigate to /src/config/appd-test/export.xml
+
+![DataPower Dashboard Import](/README_IMAGES/DataPower_Dashboard_Import.png)
+
+- Choose XML, and navigate to /src/config/appd-test/export.xml
+
+![DataPower Import Config](/README_IMAGES/DataPower_Import_Config.png)
+
 - Click next, click import
+
+![DataPower Import Config Finish](/README_IMAGES/DataPower_Import_Config_Finish.png)
 
 We're done with DataPower!
 
 	> __Note:__  If you need to change the destination IP address (default is http://host.docker.internal:8080) - do that NOW!
 				Also, don't touch the port, leave that at 8080 or you'll need to go change it numerous places.  Just leave it pls.
+
+- Click into Multi-Protocol Gateway section and choose appd-test gateway
+
+![DataPower Choose Gateway](/README_IMAGES/DataPower_Additional_Configs_Choose_Gateway.png)
+
+- Adjust the Destination
+
+![DataPower Adjust Gateway Destination](/README_IMAGES/DataPower_Additional_Configs_Change_Destination.png)
 
 ### Client and Server Java Apps
 
@@ -113,7 +130,7 @@ Copy the `.env_public` file to a file named `.env`, and populate accordingly
 
 	> __Note:__  You must fill out the AppD Java agent environment variables, the others can remain as defaults if you are running on MacOS
 
-These are images on Docker Hub, so just start with Docker Compose and it'll pull the images and you'll be off and running
+These are Docker Images on Docker Hub, so just start with Docker Compose and it'll pull the images and you'll be off and running
 
 ```bash
 $ docker-compose up -d
@@ -125,7 +142,17 @@ Navigate to the client in a browser, by default, http://host.docker.internal:808
 
 You should see the string `Server Response!`
 
+![Client GET Result](/README_IMAGES/Client_GET_Result.png)
+
 Now go to AppD and check out the App Flow Map - the call correlates through DataPower as if it weren't even there!
+
+![DataPower AppD Flow Map No DataPower](/README_IMAGES/DataPower_AppD_Flow_Map_No_DataPower.png)
+
+![DataPower AppD Snapshot No DataPower](/README_IMAGES/DataPower_Snapshot_Flow_Map_No_DataPower.png)
+
+![DataPower AppD Snapshot Waterfall No DataPower](/README_IMAGES/DataPower_Snapshot_Waterfall_No_DataPower.png)
+
+![DataPower AppD Snapshot Client Call Graph No DataPower](/README_IMAGES/DataPower_Snapshot_Client_Call_Graph_No_DataPower.png)
 
 ### Correlate, but also show DataPower on the Flow Map
 
